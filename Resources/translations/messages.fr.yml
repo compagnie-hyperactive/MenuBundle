@@ -1,0 +1,12 @@
+lch:
+  menu:
+    item:
+      title:
+        label: Titre
+        helper: Le titre de l'item
+      target:
+        label: Cible
+        helper: La cible de l'item
+      enabled:
+        label: Actif
+        helper: Si le lien est actif ou non.
