@@ -1,3 +1,47 @@
-{% block lch_menu_item_widget %}
-    test
+{% block lch_menu_tree_widget %}
+    <script>
+        {#{% set data = [#}
+        {#{#}
+        {#title: 'Lien 1',#}
+        {#url: 'http://google0.fr',#}
+        {#children: [#}
+        {#{ title: 'Lien enfant 1', url: 'http://google7.fr' },#}
+        {#{ title: 'Lien enfant 2', url: 'http://google3.fr' }#}
+        {#]#}
+        {#},#}
+        {#{#}
+        {#title: 'Lien 2',#}
+        {#url: 'http://google4.fr',#}
+        {#children: [#}
+        {#{ title: 'Lien enfant 3', url: 'http://google6.fr' }#}
+        {#]#}
+        {#}#}
+        {#] %}#}
+        {#var data2 = {{ data|json_encode()|raw }};#}
+        var data = [
+            {
+                title: 'Lien 1',
+                url: 'http://google0.fr',
+                children: [
+                    { title: 'Lien enfant 1', url: 'http://google7.fr' },
+                    { title: 'Lien enfant 2', url: 'http://google3.fr' }
+                ]
+            },
+            {
+                title: 'Lien 2',
+                url: 'http://google4.fr',
+                children: [
+                    { title: 'Lien enfant 3', url: 'http://google6.fr' }
+                ]
+            }
+        ];
+    </script>
+    {% set data = [] %}
+    {#{% for menuItem in form.vars.data %}#}
+        <input type="hidden" name="{{ form.vars.full_name }}[0]" value='{{ getMenuItemsJson(form.vars.data)|raw }}'/>
+    {#{% endfor %}#}
+    <script>
+        var data = {{ getMenuItemsJson(form.vars.data)|raw }};
+    </script>
+    <div class="menu-tree col-xs-12 col-md-10"></div>
 {% endblock %}

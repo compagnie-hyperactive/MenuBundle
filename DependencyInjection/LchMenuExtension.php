@@ -24,5 +24,11 @@ class LchMenuExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+
+
+        /*******************************
+         * Add configuration parameters
+         */
+        $container->setParameter(Configuration::ROOT_PARAMETERS_NAMESPACE . '.' . Configuration::LOCATIONS, $config[Configuration::LOCATIONS]);
     }
 }

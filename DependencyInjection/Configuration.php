@@ -12,17 +12,35 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
+    const ROOT_NAMESPACE = "lch_menu";
+    const ROOT_PARAMETERS_NAMESPACE = "lch.menu";
+    const LOCATIONS = 'locations';
+    const ID = 'id';
+    const TITLE = 'title';
+
     /**
      * {@inheritdoc}
      */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('lch_menu');
+        $rootNode = $treeBuilder->root(static::ROOT_NAMESPACE);
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $rootNode
+            ->children()
+                ->arrayNode(static::LOCATIONS)
+                    ->isRequired()
+                    ->requiresAtLeastOneElement()
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode(static::TITLE)
+                                ->isRequired()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
 
         return $treeBuilder;
     }

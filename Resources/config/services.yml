@@ -1,4 +1,26 @@
 services:
-#    lch_menu.example:
-#        class: Lch\MenuBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+  lch.menu.list.subscriber:
+    class: Lch\AdminBundle\Listener\Menu\MenusListSubscriber
+    arguments: ['@translator']
+    tags:
+      - { name: kernel.event_subscriber }
+    lazy: true
+
+  lch.menu.form:
+    class: Lch\MenuBundle\Form\MenuType
+    arguments: [ '%lch.menu.locations%' ]
+    tags:
+      - { name: form.type }
+
+  lch.menu.tree.form:
+      class: Lch\MenuBundle\Form\MenuTreeType
+      arguments: [ '@doctrine.orm.entity_manager' ]
+      tags:
+        - { name: form.type }
+
+  lch.menu.twig.extension:
+    class: Lch\MenuBundle\Twig\Extension\MenuExtension
+#    arguments: [ '@lch.media.manager', '@twig', '%lch.media.types%' ]
+    tags:
+      - { name: twig.extension }
+    lazy: true

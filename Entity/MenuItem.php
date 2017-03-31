@@ -2,6 +2,8 @@
 
 namespace Lch\MenuBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +38,21 @@ class MenuItem
      * @ORM\Column(name="enabled", type="boolean", options={"default: 1"})
      */
     private $enabled = 1;
+    /**
+     * @var int
+     * @ORM\Column(name="position", type="integer", options={"default: 0"})
+     */
+    private $position = 0;
+    /**
+     * @var MenuItem
+     * @ORM\ManyToOne(targetEntity="Lch\MenuBundle\Entity\MenuItem", inversedBy="children", cascade={"all"})
+     */
+    private $parent;
+    /**
+     * @var ArrayCollection[MenuItem]
+     * @ORM\OneToMany(targetEntity="Lch\MenuBundle\Entity\MenuItem", mappedBy="parent")
+     */
+    private $children;
 
     /**
      * MenuItem constructor.
@@ -45,6 +62,61 @@ class MenuItem
     public function __construct($title = "", $target = "") {
         $this->title = $title;
         $this->target = $target;
+        $this->children = new ArrayCollection();
+    }
+
+    /**
+     * @return int
+     */
+    public function getPosition(): int
+    {
+        return $this->position;
+    }
+
+    /**
+     * @param int $position
+     * @return MenuItem
+     */
+    public function setPosition(int $position): MenuItem
+    {
+        $this->position = $position;
+        return $this;
+    }
+
+    /**
+     * @return MenuItem
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * @param MenuItem $parent
+     * @return MenuItem
+     */
+    public function setParent(MenuItem $parent): MenuItem
+    {
+        $this->parent = $parent;
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getChildren(): Collection
+    {
+        return $this->children;
+    }
+
+    /**
+     * @param ArrayCollection $children
+     * @return MenuItem
+     */
+    public function setChildren(ArrayCollection $children): MenuItem
+    {
+        $this->children = $children;
+        return $this;
     }
 
     /**

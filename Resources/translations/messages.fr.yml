@@ -1,12 +1,25 @@
 lch:
   menu:
+    form:
+      fields:
+        title:
+          label: Titre
+          helper: Sert à nommer le menu mais n'est affiché nulle part en front
+        location:
+          label: Emplacement du menu
+          helper: Emplacement où ce menu est affiché
+        menu_items:
+          label: Eléments du menu
+          helper: Elements du menu
     item:
-      title:
-        label: Titre
-        helper: Le titre de l'item
-      target:
-        label: Cible
-        helper: La cible de l'item
-      enabled:
-        label: Actif
-        helper: Si le lien est actif ou non.
+      form:
+        fields:
+          title:
+            label: Titre
+            helper: Le titre de l'item
+          target:
+            label: Cible
+            helper: La cible de l'item
+          enabled:
+            label: Actif
+            helper: Si le lien est actif ou non.
