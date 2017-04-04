@@ -144,7 +144,6 @@ $(function() {
         //     $container.append($input);
         // }
         var $inputs = $("input[type='hidden'][data-rand='" + randId + "'");
-        $inputs.val($tree.tree('toJson'));
+        $inputs.val($tree.tree('toJson').replace("'", "\'"));
     }
-
 });
