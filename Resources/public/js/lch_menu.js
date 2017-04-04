@@ -12,14 +12,28 @@ $(function() {
             autoEscape: false,
             onCreateLi: function(node, $li) {
                 var currentPosition = $tree.find('li').length + 1;
+
+                var urlString = (node.url && node.url != '') ? ' - (<i>' + node.url + '</i>)' : '';
+
+                var tagString = (node.tags && node.tags != '') ? ' - (<b>' + node.tags + '</b>)' : '';
+
                 // Find menu-tree parent
                 $li.find('.jqtree-element')
-                    // .text(node.title)
+                    .html("<i class='glyphicon glyphicon-option-vertical'></i>" + $li.find('.jqtree-element').text() + urlString + tagString)
                     .attr('data-url', node.url)
-                    .append('<button class="btn btn-default edit-node" data-node-id="' + node.id + '"><i class="glyphicon glyphicon-edit"></i></a>')
-                    .append('<button class="btn btn-default delete-node" data-node-id="' + node.id + '"><i class="glyphicon glyphicon-remove-circle"></i></a>')
+                    .append('' +
+                        '<div class="buttons">' +
+                            '<button class="btn btn-default edit-node" data-node-id="' + node.id + '">' +
+                                '<i class="glyphicon glyphicon-edit"></i>' +
+                            '</button>' +
+                            '<button class="btn btn-default delete-node" data-node-id="' + node.id + '">' +
+                            '   <i class="glyphicon glyphicon-remove-circle"></i>' +
+                            '</button>' +
+                        '</div>')
                 ;
-            }
+            },
+            closedIcon: $('<i class="glyphicon glyphicon-circle-arrow-right"/>'),
+            openedIcon: $('<i class="glyphicon glyphicon-circle-arrow-down"/>')
         });
 
         // Logic on items drag and drop
@@ -47,7 +61,8 @@ $(function() {
                 {
                     name: 'Nouvel item',
                     url: 'http://google.fr',
-                    id: $tree.find('li').length + 1
+                    id: $tree.find('li').length + 1,
+                    tags: ""
                     // owner_type: $container.attr('data-owner-type'),
                     // owner_id: $container.attr('data-owner-id')
                 }
@@ -69,6 +84,7 @@ $(function() {
             // update modal item for edition
             $modal.find('input[name="menu-item-title"]').val(node.name);
             $modal.find('input[name="menu-item-target"]').val(node.url);
+            $modal.find('input[name="menu-item-tags"]').val(node.tags);
 
             // Update tags for node retrieval on modal validation
             $modal.find('button.save').attr('data-rand', randId);
@@ -89,8 +105,9 @@ $(function() {
                 'updateNode',
                 node,
                 {
-                    name: $modal.find('input[name="menu-item-title"]').val(),
-                    url: $modal.find('input[name="menu-item-target"]').val()
+                    name: $modal.find('input[name="menu-item-title"]').val().trim(),
+                    url: $modal.find('input[name="menu-item-target"]').val().trim(),
+                    tags: $modal.find('input[name="menu-item-tags"]').val().trim(),
                 }
             );
             jsonRegeneration($container, randId);

@@ -10,6 +10,7 @@ namespace Lch\MenuBundle\Twig\Extension;
 
 
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManager;
 use Lch\MenuBundle\Entity\Menu;
 use Lch\MenuBundle\Entity\MenuItem;
 
@@ -32,12 +33,30 @@ class MenuExtension extends \Twig_Extension
     private $currentOwner;
 
     /**
+     * @var EntityManager
+     */
+    private $manager;
+
+    /**
+     * @var array
+     */
+    private $locations;
+
+    public function __construct(EntityManager $manager, array $locations) {
+        $this->manager = $manager;
+        $this->locations = $locations;
+    }
+
+    /**
      * @return array
      */
     public function getFunctions()
     {
         return [
             new \Twig_SimpleFunction('getMenuItemsJson', [$this, 'getMenuItemsJson' ], [
+                'needs_environment' => false
+            ]),
+            new \Twig_SimpleFunction('getMenuItems', [$this, 'getMenuItems' ], [
                 'needs_environment' => false
             ])
         ];
@@ -85,5 +104,17 @@ class MenuExtension extends \Twig_Extension
         }
 
         return $data;
+    }
+
+
+    /**
+     * @param string $location
+     * @return array
+     */
+    public function getMenuItems(string $location) {
+        // TODO throw exception if location not found, or menu
+        $menu = $this->manager->getRepository('LchMenuBundle:Menu')->findOneBy(['location' => $location]);
+        dump(json_decode($menu->getMenuItems()));
+        return json_decode($menu->getMenuItems());
     }
 }

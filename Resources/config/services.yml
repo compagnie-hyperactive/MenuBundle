@@ -20,7 +20,7 @@ services:
 
   lch.menu.twig.extension:
     class: Lch\MenuBundle\Twig\Extension\MenuExtension
-#    arguments: [ '@lch.media.manager', '@twig', '%lch.media.types%' ]
+    arguments: [ '@doctrine.orm.entity_manager', '%lch.menu.locations%' ]
     tags:
       - { name: twig.extension }
     lazy: true
