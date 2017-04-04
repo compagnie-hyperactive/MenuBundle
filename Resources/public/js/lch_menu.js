@@ -129,6 +129,10 @@ $(function() {
 
             jsonRegeneration($container, randId);
         });
+
+        $('button[type="submit"]').click(function(e) {
+            jsonRegeneration($container, randId);
+        });
     });
 
     /**
