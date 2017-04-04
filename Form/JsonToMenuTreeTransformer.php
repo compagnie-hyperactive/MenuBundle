@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Persistence\ObjectManager;
 use Lch\MenuBundle\Entity\MenuItem;
 use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class JsonToMenuTreeTransformer implements DataTransformerInterface
 {
@@ -21,6 +22,11 @@ class JsonToMenuTreeTransformer implements DataTransformerInterface
      * @var ObjectManager
      */
     private $manager;
+
+    /**
+     * @var array
+     */
+    private $allNodes;
 
     /**
      * JsonToMenuTreeTransformer constructor.
@@ -51,11 +57,19 @@ class JsonToMenuTreeTransformer implements DataTransformerInterface
     public function reverseTransform($jsonMenuNodes)
     {
         // TODO add exception
-        if (null === $jsonMenuNodes) {
-            return null;
+        if ($jsonMenuNodes instanceof Collection && $jsonMenuNodes->count() === 0) {
+            return new ArrayCollection();
         }
+        $this->allNodes = [];
+
+        // TODO handle no node
+        $firstNode = json_decode($jsonMenuNodes->first())[0];
+
         // Only handle the first collection item which contain all tree
         $menuItemsArray = $this->recursiveNodeHandling(json_decode($jsonMenuNodes->first()));
+
+        // Remove delta which is not present anymore
+
 
         return new ArrayCollection($menuItemsArray);
     }
@@ -73,8 +87,14 @@ class JsonToMenuTreeTransformer implements DataTransformerInterface
         foreach($nodes as $node) {
 
             // Handle direct child
-            $currentMenuItem = new MenuItem();
-            $currentMenuItem->setTitle($node->title);
+            if(isset($node->persist_id)) {
+                $currentMenuItem = $this->manager->getRepository('LchMenuBundle:MenuItem')->find($node->persist_id);
+            }
+            else {
+                $currentMenuItem = new MenuItem();
+            }
+
+            $currentMenuItem->setTitle($node->name);
             $currentMenuItem->setTarget($node->url);
             $currentMenuItem->setPosition($position);
 
@@ -84,16 +104,34 @@ class JsonToMenuTreeTransformer implements DataTransformerInterface
             }
 
             $menuItemsArray[] = $currentMenuItem;
+            $this->allNodes[] = $currentMenuItem;
 
             // Handle subchildren recursively
             if(isset($node->children)) {
                 $childrenMenuItemsArray = $this->recursiveNodeHandling($node->children, $currentMenuItem);
-                $menuItemsArray = array_merge($menuItemsArray, $childrenMenuItemsArray);
+//                $menuItemsArray = array_merge($menuItemsArray, $childrenMenuItemsArray);
                 // Add children
                 $currentMenuItem->setChildren(new ArrayCollection($childrenMenuItemsArray));
             }
             $position++;
         }
         return $menuItemsArray;
+    }
+
+    /**
+     * Transform hierarchical list to flat array for easing comparison
+     * @param $items
+     * @return array
+     */
+    private function hierarchyToFlatArray($items) {
+        $flatArray = [];
+        foreach($items as $item) {
+            $flatArray[] = $item->getId();
+            // TODO generalize
+            if($items->getChildren()->count() > 0) {
+                $flatArray = array_merge($flatArray, $this->hierarchyToFlatArray($items->getChildren()));
+            }
+        }
+        return $flatArray;
     }
 }

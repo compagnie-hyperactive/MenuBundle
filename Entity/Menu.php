@@ -35,35 +35,52 @@ class Menu
      * @ORM\Column(type="string", length=256, nullable=true, unique=true)
      */
     private $location;
+
     /**
-     * @var ArrayCollection[MenuItem]
-     * @ORM\ManyToMany(targetEntity="Lch\MenuBundle\Entity\MenuItem", cascade={"all"}, orphanRemoval=true)
-     * @ORM\JoinTable(name="menu_menu_item")
+     * @var string
+     * @ORM\Column(type="text", nullable=true)
      */
     private $menuItems;
 
-
     public function __construct() {
-        $this->menuItems = new ArrayCollection();
+//        $this->menuItems = new ArrayCollection();
     }
 
     /**
-     * @return ArrayCollection
+     * @return string
      */
-    public function getMenuItems(): Collection
+    public function getMenuItems()
     {
         return $this->menuItems;
     }
 
     /**
-     * @param ArrayCollection $menuItems
+     * @param string $menuItems
      * @return Menu
      */
-    public function setMenuItems(ArrayCollection $menuItems): Menu
+    public function setMenuItems(string $menuItems): Menu
     {
         $this->menuItems = $menuItems;
         return $this;
     }
+
+//    /**
+//     * @return ArrayCollection
+//     */
+//    public function getMenuItems(): Collection
+//    {
+//        return $this->menuItems;
+//    }
+//
+//    /**
+//     * @param ArrayCollection $menuItems
+//     * @return Menu
+//     */
+//    public function setMenuItems(ArrayCollection $menuItems): Menu
+//    {
+//        $this->menuItems = $menuItems;
+//        return $this;
+//    }
 
     /**
      * @return string

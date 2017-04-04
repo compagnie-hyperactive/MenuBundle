@@ -2982,14 +2982,14 @@ JqTreeWidget = (function(superClass) {
   };
 
   JqTreeWidget.prototype.removeNode = function(node) {
-    var parent;
-    parent = node.parent;
-    if (parent) {
-      this.select_node_handler.removeFromSelection(node, true);
-      node.remove();
-      this._refreshElements(parent);
-    }
-    return this.element;
+      var parent;
+      parent = node.parent;
+      if (parent) {
+          this.select_node_handler.removeFromSelection(node, true);
+          node.remove();
+          this._refreshElements(parent);
+      }
+      return this.element;
   };
 
   JqTreeWidget.prototype.appendNode = function(new_node_info, parent_node) {

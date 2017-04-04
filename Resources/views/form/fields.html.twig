@@ -1,47 +1,77 @@
 {% block lch_menu_tree_widget %}
+    {#<script>#}
+        {#var data = [#}
+            {#{#}
+                {#title: 'Lien 1',#}
+                {#url: 'http://google0.fr',#}
+                {#children: [#}
+                    {#{ title: 'Lien enfant 1', url: 'http://google7.fr' },#}
+                    {#{ title: 'Lien enfant 2', url: 'http://google3.fr' }#}
+                {#]#}
+            {#},#}
+            {#{#}
+                {#title: 'Lien 2',#}
+                {#url: 'http://google4.fr',#}
+                {#children: [#}
+                    {#{ title: 'Lien enfant 3', url: 'http://google6.fr' }#}
+                {#]#}
+            {#}#}
+        {#];#}
+    {#</script>#}
+
+    {% set rand = random() %}
     <script>
-        {#{% set data = [#}
-        {#{#}
-        {#title: 'Lien 1',#}
-        {#url: 'http://google0.fr',#}
-        {#children: [#}
-        {#{ title: 'Lien enfant 1', url: 'http://google7.fr' },#}
-        {#{ title: 'Lien enfant 2', url: 'http://google3.fr' }#}
-        {#]#}
-        {#},#}
-        {#{#}
-        {#title: 'Lien 2',#}
-        {#url: 'http://google4.fr',#}
-        {#children: [#}
-        {#{ title: 'Lien enfant 3', url: 'http://google6.fr' }#}
-        {#]#}
-        {#}#}
-        {#] %}#}
-        {#var data2 = {{ data|json_encode()|raw }};#}
-        var data = [
-            {
-                title: 'Lien 1',
-                url: 'http://google0.fr',
-                children: [
-                    { title: 'Lien enfant 1', url: 'http://google7.fr' },
-                    { title: 'Lien enfant 2', url: 'http://google3.fr' }
-                ]
-            },
-            {
-                title: 'Lien 2',
-                url: 'http://google4.fr',
-                children: [
-                    { title: 'Lien enfant 3', url: 'http://google6.fr' }
-                ]
-            }
-        ];
+        {#var data_{{ rand }} = {{ getMenuItemsJson(form.vars.data, form.parent.vars.value)|raw }};#}
+        var data_{{ rand }} = {{ form.vars.value ? form.vars.value|raw : '' }};
     </script>
-    {% set data = [] %}
-    {#{% for menuItem in form.vars.data %}#}
-        <input type="hidden" name="{{ form.vars.full_name }}[0]" value='{{ getMenuItemsJson(form.vars.data)|raw }}'/>
-    {#{% endfor %}#}
-    <script>
-        var data = {{ getMenuItemsJson(form.vars.data)|raw }};
-    </script>
-    <div class="menu-tree col-xs-12 col-md-10"></div>
+    <div class="col-xs-12 col-md-2">
+        <label>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</label>
+        <p class="helper {% if(form.parent.parent != null and (form.parent.vars.attr.force_two_columns_presentation is not defined)) %}text-right{% endif %}">
+            <i class="glyphicon glyphicon-question-sign"></i>
+            {{ form.vars.attr.helper|trans({}, form.vars.translation_domain)|raw }}
+        </p>
+    </div>
+    <div class="menu-tree-container col-xs-12 col-md-10"
+         data-rand="{{ rand }}"
+         {#data-name="{{ form.vars.full_name }}"#}
+         {#data-owner-type="{{ getClass(form.parent.vars.value) }}"#}
+         {#data-owner-id="{{ form.parent.vars.value.id }}"#}
+    >
+        {#{{ dump(form) }}#}
+
+        {#{% for rootMenuItem in form.vars.data %}#}
+            <input
+                    type="hidden"
+                    data-rand="{{ rand }}"
+                    {#name="{{ form.vars.full_name }}[{{ loop.index0 }}]"#}
+                    name="{{ form.vars.full_name }}"
+                    value='{{ form.vars.data|raw }}'/>
+        {#{% endfor %}#}
+
+        <div data-rand="{{ rand }}" class="menu-tree"></div>
+        <button data-rand="{{ rand }}" class="btn btn-default add-node"><i class="glyphicon glyphicon-plus"></i>{{ "lch.menu.tree.add"|trans }}</button>
+
+        <div id="edit-modal-{{ rand }}" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Modifier l'item</h4>
+                    </div>
+                    <div class="modal-body clearfix">
+                        <div class="col-xs-12">
+                            <input type="text" name="menu-item-title" class="form-control" value="" placeholder="Le nom du lien"/>
+                        </div>
+                        <div class="col-xs-12">
+                            <input type="text" name="menu-item-target" class="form-control" value="" placeholder="La cible du lien"/>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary save"><i class="glyphicon glyphicon-save"></i>Enregistrer</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+
 {% endblock %}

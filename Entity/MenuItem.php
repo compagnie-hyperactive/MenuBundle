@@ -50,7 +50,7 @@ class MenuItem
     private $parent;
     /**
      * @var ArrayCollection[MenuItem]
-     * @ORM\OneToMany(targetEntity="Lch\MenuBundle\Entity\MenuItem", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="Lch\MenuBundle\Entity\MenuItem", mappedBy="parent", cascade={"all"}, fetch="EAGER", orphanRemoval=true)
      */
     private $children;
 
@@ -102,7 +102,7 @@ class MenuItem
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
     public function getChildren(): Collection
     {

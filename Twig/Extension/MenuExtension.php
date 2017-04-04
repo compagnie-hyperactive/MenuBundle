@@ -10,6 +10,7 @@ namespace Lch\MenuBundle\Twig\Extension;
 
 
 use Doctrine\Common\Collections\Collection;
+use Lch\MenuBundle\Entity\Menu;
 use Lch\MenuBundle\Entity\MenuItem;
 
 class MenuExtension extends \Twig_Extension
@@ -26,6 +27,11 @@ class MenuExtension extends \Twig_Extension
     private $position;
 
     /**
+     * @var object
+     */
+    private $currentOwner;
+
+    /**
      * @return array
      */
     public function getFunctions()
@@ -33,10 +39,7 @@ class MenuExtension extends \Twig_Extension
         return [
             new \Twig_SimpleFunction('getMenuItemsJson', [$this, 'getMenuItemsJson' ], [
                 'needs_environment' => false
-            ]),
-            new \Twig_SimpleFunction('getMenuItemJson', [$this, 'getMenuItemJson' ], [
-                'needs_environment' => false
-            ]),
+            ])
         ];
     }
 
@@ -45,10 +48,11 @@ class MenuExtension extends \Twig_Extension
      * @param Collection $menuItems
      * @return string
      */
-    public function getMenuItemsJson(Collection $menuItems) {
+    public function getMenuItemsJson(Collection $menuItems, $currentOwner) {
 
         $this->alreadySetIds = [];
         $this->position = 0;
+        $this->currentOwner = $currentOwner;
         return json_encode($this->recursiveMenuItemHandling($menuItems));
     }
 
@@ -64,9 +68,14 @@ class MenuExtension extends \Twig_Extension
             if(!in_array($menuItem->getId(), $this->alreadySetIds)) {
                 $this->alreadySetIds[] = $menuItem->getId();
                 $itemNode = [];
-                $itemNode['title'] = $menuItem->getTitle();
+                $itemNode['name'] = $menuItem->getTitle();
                 $itemNode['url'] = $menuItem->getTarget();
-                $itemNode['position'] = $this->position;
+                $itemNode['id'] = $this->position;
+                $itemNode['persist_id'] = $menuItem->getId();
+                if(null === $menuItem->getParent()) {
+                    $itemNode['owner_type'] = get_class($this->currentOwner);
+                    $itemNode['owner_id'] = $this->currentOwner->getId();
+                }
                 $this->position++;
                 if ($menuItem->getChildren()->count() > 0) {
                     $itemNode['children'] = $this->recursiveMenuItemHandling($menuItem->getChildren());
@@ -76,30 +85,5 @@ class MenuExtension extends \Twig_Extension
         }
 
         return $data;
-    }
-
-    /**
-     * @param MenuItem $menuItem
-     * @param int $position
-     * @return string
-     */
-    public function getMenuItemJson(MenuItem $menuItem, int $position) {
-        $data = [
-            'title' => $menuItem->getTitle(),
-            'url' => $menuItem->getTarget(),
-            'position' => $position
-        ];
-
-        // Handle direct children only (reverse transform will handle the rest
-        if($menuItem->getChildren()->count() > 0) {
-            foreach($menuItem->getChildren() as $childMenuItem) {
-                $data['children'][] = ++$position;
-//                $data['children'][] = [
-//                    'title' => $chilMenuItem->getTitle(),
-//                    'url' => $chilMenuItem->getTarget(),
-//                ];
-            }
-        }
-        return json_encode($data);
     }
 }

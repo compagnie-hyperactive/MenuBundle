@@ -24,3 +24,10 @@ services:
     tags:
       - { name: twig.extension }
     lazy: true
+
+  lch.menu.tools:
+    class: Lch\MenuBundle\Service\MenuTools
+    arguments: [ '@doctrine.orm.entity_manager' ]
+#    tags:
+#      - { name: twig.extension }
+    lazy: true

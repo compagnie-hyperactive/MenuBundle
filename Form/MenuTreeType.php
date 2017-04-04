@@ -32,8 +32,8 @@ class MenuTreeType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $jsonToMenuItemTransformer = new JsonToMenuTreeTransformer($this->manager);
-        $builder->addViewTransformer($jsonToMenuItemTransformer);
+//        $jsonToMenuItemTransformer = new JsonToMenuTreeTransformer($this->manager);
+//        $builder->addViewTransformer($jsonToMenuItemTransformer);
     }
 
     /**
@@ -49,7 +49,8 @@ class MenuTreeType extends AbstractType
      */
     public function getParent()
     {
-        return CollectionType::class;
+//        return CollectionType::class;
+        return HiddenType::class;
     }
 
     /**

@@ -65,6 +65,8 @@ class MenuType extends AbstractType
             ])
             ->add('menuItems', MenuTreeType::class, [
                 'label' => static::ROOT_TRANSLATION_PATH . '.menu_items.label',
+//                'allow_add' => true,
+//                'allow_delete' => true,
                 'attr' => array(
                     'helper' => static::ROOT_TRANSLATION_PATH . '.menu_items.helper'
                 ),
