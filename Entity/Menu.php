@@ -27,12 +27,12 @@ class Menu
     private $id;
     /**
      * @var string
-     * @ORM\Column(type="string", length=256, nullable=false, unique=true)
+     * @ORM\Column(type="string", length=255, nullable=false, unique=true)
      */
     private $title;
     /**
      * @var string
-     * @ORM\Column(type="string", length=256, nullable=true, unique=true)
+     * @ORM\Column(type="string", length=255, nullable=true, unique=true)
      */
     private $location;
 
