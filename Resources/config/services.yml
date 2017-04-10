@@ -1,11 +1,4 @@
 services:
-  lch.menu.list.subscriber:
-    class: Lch\AdminBundle\Listener\Menu\MenusListSubscriber
-    arguments: ['@translator']
-    tags:
-      - { name: kernel.event_subscriber }
-    lazy: true
-
   lch.menu.form:
     class: Lch\MenuBundle\Form\MenuType
     arguments: [ '%lch.menu.locations%' ]
