@@ -4,6 +4,8 @@
 $(function() {
     $('.menu-tree').each(function() {
         $tree = $(this);
+        var $container = $tree.parent();
+
         var randId = $(this).attr('data-rand');
         $tree.tree({
             data: window['data_' + randId],
@@ -54,7 +56,7 @@ $(function() {
         $('button.add-node[data-rand="' + randId + '"]').click(function(e) {
             e.preventDefault();
 
-            $container = $tree.parent();
+            // $container = $tree.parent();
 
             $tree.tree(
                 'appendNode',
@@ -78,7 +80,7 @@ $(function() {
             // Get the node from the tree
             var node = $tree.tree('getNodeById', $(e.currentTarget).attr('data-node-id'));
 
-            $container = $tree.parent();
+            // $container = $tree.parent();
             $modal = $("#edit-modal-" + randId);
 
             // update modal item for edition
@@ -96,7 +98,7 @@ $(function() {
         $('.menu-tree-container').on('click', 'button.save', function(e) {
             $modal = $("#edit-modal-" + randId);
             $modal.modal('hide');
-            $container = $tree.parent();
+            // $container = $tree.parent();
 
             var node = $tree.tree('getNodeById', $(this).attr('data-node-id'));
             $modal = $("#edit-modal-" + $(this).attr('data-rand'));
@@ -116,8 +118,6 @@ $(function() {
         // Logic on node deletion
         $tree.on('click', '.delete-node', function(e) {
             e.preventDefault();
-
-            $container = $tree.parent();
 
             // Get the id from the 'node-id' data property
             // var $node = $(e.target).closest('li.jqtree_common');
