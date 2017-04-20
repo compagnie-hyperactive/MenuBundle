@@ -114,7 +114,11 @@ class MenuExtension extends \Twig_Extension
     public function getMenuItems(string $location) {
         // TODO throw exception if location not found, or menu
         $menu = $this->manager->getRepository('LchMenuBundle:Menu')->findOneBy(['location' => $location]);
-        dump(json_decode($menu->getMenuItems()));
-        return json_decode($menu->getMenuItems());
+
+        $menuItems = json_decode($menu->getMenuItems());
+        if(is_array($menuItems)) {
+            return $menuItems;
+        }
+        return [];
     }
 }
