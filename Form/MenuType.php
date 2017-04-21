@@ -37,15 +37,14 @@ class MenuType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $locations = $this->locations;
-
         $builder
             ->add('title', TextType::class, [
                 'label' => static::ROOT_TRANSLATION_PATH . ".title.label",
                 'attr' => [
                     'helper' => static::ROOT_TRANSLATION_PATH . ".title.helper",
                     'width' => 50
-                ]
+                ],
+                'translation_domain' => 'LchMenuBundle'
             ])
             ->add('location', ChoiceType::class, [
                 'label' => static::ROOT_TRANSLATION_PATH . ".location.label",
@@ -61,7 +60,8 @@ class MenuType extends AbstractType
                 'attr' => [
                     'helper' => static::ROOT_TRANSLATION_PATH . ".location.helper",
                     'width' => 50
-                ]
+                ],
+                'translation_domain' => 'LchMenuBundle'
             ])
             ->add('menuItems', MenuTreeType::class, [
                 'label' => static::ROOT_TRANSLATION_PATH . '.menu_items.label',
@@ -70,6 +70,7 @@ class MenuType extends AbstractType
                 'attr' => array(
                     'helper' => static::ROOT_TRANSLATION_PATH . '.menu_items.helper'
                 ),
+                'translation_domain' => 'LchMenuBundle'
             ])
         ;
     }

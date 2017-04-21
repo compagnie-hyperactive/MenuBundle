@@ -1,6 +1,8 @@
 lch:
   menu:
     form:
+      tree:
+        add: Ajouter un élément
       fields:
         title:
           label: Titre

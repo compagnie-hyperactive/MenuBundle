@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class MenuItemType extends AbstractType
 {
     const NAME = "lch_menu_item";
-    const ROOT_TRANSLATION_PATH = "lch.menu.item";
+    const ROOT_TRANSLATION_PATH = "lch.menu.item.form.fields";
 
     /**
      * @inheritdoc
