@@ -2,6 +2,7 @@
  * Created by nicolas on 30/03/17.
  */
 $(function() {
+
     $('.menu-tree').each(function() {
         $tree = $(this);
         var $container = $tree.parent();
@@ -17,7 +18,8 @@ $(function() {
 
                 var urlString = (node.url && node.url != '') ? ' - (<i>' + node.url + '</i>)' : '';
 
-                var tagString = (node.tags && node.tags != '') ? ' - (<b>' + node.tags + '</b>)' : '';
+                diplayableTags = jsonStrTagsToStr(node.tags);
+                var tagString = (diplayableTags && diplayableTags != '') ? ' - (<b>' + diplayableTags + '</b>)' : '';
 
                 // Find menu-tree parent
                 $li.find('.jqtree-element')
@@ -86,7 +88,7 @@ $(function() {
             // update modal item for edition
             $modal.find('input[name="menu-item-title"]').val(node.name);
             $modal.find('input[name="menu-item-target"]').val(node.url);
-            $modal.find('input[name="menu-item-tags"]').val(node.tags);
+            $modal.find('input[name="menu-item-tags"]').val(jsonStrTagsToStr(node.tags));
 
             // Update tags for node retrieval on modal validation
             $modal.find('button.save').attr('data-rand', randId);
@@ -109,9 +111,10 @@ $(function() {
                 {
                     name: $modal.find('input[name="menu-item-title"]').val().trim(),
                     url: $modal.find('input[name="menu-item-target"]').val().trim(),
-                    tags: $modal.find('input[name="menu-item-tags"]').val().trim(),
+                    tags: strTagsToJson($modal.find('input[name="menu-item-tags"]').val()),
                 }
             );
+            console.log(node);
             jsonRegeneration($container, randId);
         });
 
@@ -149,5 +152,26 @@ $(function() {
         // }
         var $inputs = $("input[type='hidden'][data-rand='" + randId + "'");
         $inputs.val($tree.tree('toJson').replace("'", "\'"));
+    }
+
+    function strTagsToJson(strTags){
+
+        var arrayTags = strTags.split(',');
+
+        array = $.map(arrayTags, function(tags) {
+            return tags.trim();
+        });
+
+        return array;
+    }
+
+    function jsonStrTagsToStr(tags){
+        try {
+            jsontags = JSON.parse(tags);
+        } catch (e) {
+            return tags;
+        }
+        return jsonTags;
+
     }
 });
