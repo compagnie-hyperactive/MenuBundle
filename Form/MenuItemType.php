@@ -25,12 +25,17 @@ class MenuItemType extends AbstractType
             ])
             ->add('target', UrlType::class, [
                 'label' => static::ROOT_TRANSLATION_PATH . ".target.label"
-            ])
-            ->add('enabled', CheckboxType::class, [
+            ]);
+
+
+        if($options['enablable']) {
+            $builder->add('enabled', CheckboxType::class, [
                 'label' => static::ROOT_TRANSLATION_PATH . ".enabled.label",
                 'required' => false
             ])
-        ;
+            ;
+        }
+
     }
 
     /**
@@ -39,7 +44,8 @@ class MenuItemType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-           'data_class' => 'Lch\MenuBundle\Entity\MenuItem'
+           'data_class' => 'Lch\MenuBundle\Entity\MenuItem',
+           'enablable'  => true
         ]);
     }
 
