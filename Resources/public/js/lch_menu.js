@@ -64,7 +64,7 @@ $(function() {
                 'appendNode',
                 {
                     name: 'Nouvel item',
-                    url: 'http://google.fr',
+                    url: '',
                     id: $tree.find('li').length + 1,
                     tags: ""
                     // owner_type: $container.attr('data-owner-type'),
