@@ -35,12 +35,12 @@ class MenuItem
     private $target;
     /**
      * @var bool $enabled;
-     * @ORM\Column(name="enabled", type="boolean", options={"default: 1"})
+     * @ORM\Column(name="enabled", type="boolean", options={"default": 1})
      */
     private $enabled = 1;
     /**
      * @var int
-     * @ORM\Column(name="position", type="integer", options={"default: 0"})
+     * @ORM\Column(name="position", type="integer", options={"default": 0})
      */
     private $position = 0;
     /**
