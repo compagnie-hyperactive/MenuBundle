@@ -11,6 +11,12 @@ services:
       tags:
         - { name: form.type }
 
+  lch.menu.location:
+      class: Lch\MenuBundle\Form\MenuLocationType
+      arguments: [ '%lch.menu.locations%' ]
+      tags:
+        - { name: form.type }
+
   lch.menu.twig.extension:
     class: Lch\MenuBundle\Twig\Extension\MenuExtension
     arguments: [ '@doctrine.orm.entity_manager', '%lch.menu.locations%' ]
