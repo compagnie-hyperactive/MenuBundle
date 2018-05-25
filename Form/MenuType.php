@@ -16,23 +16,6 @@ class MenuType extends AbstractType
     const ROOT_TRANSLATION_PATH = "lch.menu.form.fields";
 
     /**
-     * @var array $locations
-     */
-    private $locations;
-
-    /**
-     * MenuType constructor.
-     * @param array $locations
-     */
-    public function __construct(array $locations) {
-        $this->locations = [];
-        foreach($locations as $key => $location) {
-            $this->locations[$key] = $location[Configuration::TITLE];
-        }
-        $this->locations = array_flip($this->locations);
-    }
-
-    /**
      * @inheritdoc
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -46,21 +29,8 @@ class MenuType extends AbstractType
                 ],
                 'translation_domain' => 'LchMenuBundle'
             ])
-            ->add('location', ChoiceType::class, [
+            ->add('location', MenuLocationType::class, [
                 'label' => static::ROOT_TRANSLATION_PATH . ".location.label",
-                'multiple'  => false,
-                'expanded'  => false,
-                'choices'   => $this->locations,
-                'choice_value' => function($location) {
-                    return $location;
-                },
-                'choice_label' => function($key, $location) {
-                    return $location;
-                },
-                'attr' => [
-                    'helper' => static::ROOT_TRANSLATION_PATH . ".location.helper",
-                    'width' => 50
-                ],
                 'translation_domain' => 'LchMenuBundle'
             ])
             ->add('menuItems', MenuTreeType::class, [
