@@ -23,13 +23,12 @@
     {% set rand = random() %}
     <script>
         {#var data_{{ rand }} = {{ getMenuItemsJson(form.vars.data, form.parent.vars.value)|raw }};#}
-        var data_{{ rand }} = {{ form.vars.value ? form.vars.value|raw : '' }};
+        var data_{{ rand }} = {{ form.vars.value ? form.vars.value|raw : '""' }};
     </script>
     <div class="col-xs-12 col-md-2">
         <label>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</label>
         <p class="helper {% if(form.parent.parent != null and (form.parent.vars.attr.force_two_columns_presentation is not defined)) %}text-right{% endif %}">
             <i class="glyphicon glyphicon-question-sign"></i>
-            {{ form.vars.attr.helper|trans({}, form.vars.translation_domain)|raw }}
         </p>
     </div>
     <div class="menu-tree-container col-xs-12 col-md-10"

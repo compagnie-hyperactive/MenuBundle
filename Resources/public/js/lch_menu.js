@@ -23,21 +23,21 @@ $(function() {
 
                 // Find menu-tree parent
                 $li.find('.jqtree-element')
-                    .html("<i class='glyphicon glyphicon-option-vertical'></i>" + $li.find('.jqtree-element').text() + urlString + tagString)
+                    .html("<i class='fa fa-ellipsis-v'></i>" + $li.find('.jqtree-element').text() + urlString + tagString)
                     .attr('data-url', node.url)
                     .append('' +
                         '<div class="buttons">' +
                             '<button class="btn btn-default edit-node" data-node-id="' + node.id + '">' +
-                                '<i class="glyphicon glyphicon-edit"></i>' +
+                                '<i class="fa fa-edit"></i>' +
                             '</button>' +
                             '<button class="btn btn-default delete-node" data-node-id="' + node.id + '">' +
-                            '   <i class="glyphicon glyphicon-remove-circle"></i>' +
+                            '   <i class="fa fa-trash"></i>' +
                             '</button>' +
                         '</div>')
                 ;
             },
-            closedIcon: $('<i class="glyphicon glyphicon-circle-arrow-right"/>'),
-            openedIcon: $('<i class="glyphicon glyphicon-circle-arrow-down"/>')
+            closedIcon: $('<i class="fa fa-chevron-right"/>'),
+            openedIcon: $('<i class="fa fa-chevon-left"/>')
         });
 
         // Logic on items drag and drop
