@@ -12,9 +12,10 @@
         }
     ],
     "require": {
-        "php": "^7.0",
+        "php": "^7.1",
         "symfony/framework-bundle": "^4.2",
-        "knplabs/doctrine-behaviors": "~1.1"
+        "knplabs/doctrine-behaviors": "~1.1",
+        "lch/translate-bundle": "^0.1.1"
     },
     "require-dev": {
         "doctrine/doctrine-bundle": "^1.3",
