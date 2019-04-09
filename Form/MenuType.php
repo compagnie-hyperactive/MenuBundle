@@ -3,6 +3,11 @@
 namespace Lch\MenuBundle\Form;
 
 use Lch\MenuBundle\DependencyInjection\Configuration;
+use Lch\MenuBundle\Entity\Menu;
+use Lch\TranslateBundle\EventListener\AddTranslationsFieldsEventSubscriber;
+use Lch\TranslateBundle\Form\Type\LanguageType;
+use Lch\TranslateBundle\Form\Type\TranslatedParentType;
+use Lch\TranslateBundle\Utils\TranslationsHelper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -14,6 +19,19 @@ class MenuType extends AbstractType
 {
     const NAME = "lch_menu";
     const ROOT_TRANSLATION_PATH = "lch.menu.form.fields";
+
+    /** @var TranslationsHelper $translationsHelper */
+    protected $translationsHelper;
+
+    /**
+     * MenuType constructor.
+     * @param TranslationsHelper $translationsHelper
+     */
+    public function __construct(TranslationsHelper $translationsHelper)
+    {
+        $this->translationsHelper = $translationsHelper;
+    }
+
 
     /**
      * @inheritdoc
@@ -43,6 +61,15 @@ class MenuType extends AbstractType
                 'translation_domain' => 'LchMenuBundle'
             ])
         ;
+
+        if ($this->translationsHelper->isTranslationSystemEnabled()) {
+            $builder
+                ->add('language', LanguageType::class)
+                ->add('translatedParent', TranslatedParentType::class, [
+                    'class' => Menu::class
+                ])
+            ;
+        }
     }
 
     /**

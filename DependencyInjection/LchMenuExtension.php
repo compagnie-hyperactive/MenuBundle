@@ -29,6 +29,9 @@ class LchMenuExtension extends Extension
         /*******************************
          * Add configuration parameters
          */
-        $container->setParameter(Configuration::ROOT_PARAMETERS_NAMESPACE . '.' . Configuration::LOCATIONS, $config[Configuration::LOCATIONS]);
+        $container->setParameter(
+            Configuration::ROOT_PARAMETERS_NAMESPACE . '.' . Configuration::LOCATIONS,
+            $config[Configuration::LOCATIONS]
+        );
     }
 }
