@@ -1,7 +1,7 @@
 services:
   lch.menu.form:
     class: Lch\MenuBundle\Form\MenuType
-    arguments: [ '%lch.menu.locations%' ]
+    arguments: [ '@lch.translate.translations_helper', '%lch.menu.locations%' ]
     tags:
       - { name: form.type }
 
