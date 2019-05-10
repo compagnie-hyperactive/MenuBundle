@@ -1,35 +1,38 @@
 /************************************
-       * JQTree
-       */
-.menu-tree ul {
+* JQTree
+*/
+.menu-tree-container .menu-tree ul {
   list-style-type: none; }
-  .menu-tree ul li.jqtree_common {
+  .menu-tree-container .menu-tree ul li.jqtree_common {
     background-color: #FFF; }
-    .menu-tree ul li.jqtree_common:nth-child(even) {
+    .menu-tree-container .menu-tree ul li.jqtree_common:nth-child(even) {
       background-color: #EEE; }
-  .menu-tree ul li.jqtree-folder {
+  .menu-tree-container .menu-tree ul li.jqtree-folder {
     margin-bottom: 5px;
     padding: 5px;
     border: 1px solid #ccc; }
-  .menu-tree ul .jqtree-element {
+  .menu-tree-container .menu-tree ul .jqtree-element {
     border: 1px solid #ccc;
     padding: 10px;
     margin-bottom: 5px; }
-    .menu-tree ul .jqtree-element i.fa.fa-ellipsis-v {
+    .menu-tree-container .menu-tree ul .jqtree-element i.fa.fa-ellipsis-v {
       margin: 15px; }
-      .menu-tree ul .jqtree-element i.fa.fa-ellipsis-v:hover {
+      .menu-tree-container .menu-tree ul .jqtree-element i.fa.fa-ellipsis-v:hover {
         cursor: pointer;
         cursor: hand; }
-    .menu-tree ul .jqtree-element a.jqtree-toggler {
+    .menu-tree-container .menu-tree ul .jqtree-element a.jqtree-toggler {
       color: black; }
-      .menu-tree ul .jqtree-element a.jqtree-toggler:hover {
+      .menu-tree-container .menu-tree ul .jqtree-element a.jqtree-toggler:hover {
         text-decoration: none;
         cursor: pointer; }
-    .menu-tree ul .jqtree-element div.buttons {
+    .menu-tree-container .menu-tree ul .jqtree-element div.buttons {
       display: inline-block; }
-      .menu-tree ul .jqtree-element div.buttons button {
-        margin-left: 5px; }
-        .menu-tree ul .jqtree-element div.buttons button:first-child {
+      .menu-tree-container .menu-tree ul .jqtree-element div.buttons button {
+        margin-left: 5px;
+        border: 1px solid #ccc; }
+        .menu-tree-container .menu-tree ul .jqtree-element div.buttons button:first-child {
           margin-left: 30px; }
+.menu-tree-container .add-node {
+  border: 1px solid #ccc; }
 
 /*# sourceMappingURL=lch_menu.css.map */
