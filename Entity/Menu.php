@@ -7,14 +7,15 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Lch\TranslateBundle\Model\Behavior\Translatable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Lch\MenuBundle\Service as LchAssert;
 
 /**
  * Menu
  *
  * @ORM\Table(name="menu")
  * @ORM\Entity(repositoryClass="Lch\MenuBundle\Repository\MenuRepository")
- * @UniqueEntity(fields={"title"})
- * @UniqueEntity(fields={"location"})
+ * @LchAssert\ValidMenu
  */
 class Menu
 {

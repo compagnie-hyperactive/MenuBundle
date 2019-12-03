@@ -2,6 +2,8 @@
 
 namespace Lch\MenuBundle\Repository;
 
+use Lch\MenuBundle\Entity\Menu;
+
 /**
  * MenuRepository
  *
@@ -10,4 +12,17 @@ namespace Lch\MenuBundle\Repository;
  */
 class MenuRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findForValidator(Menu $menu){
+        $qb = $this->createQueryBuilder('m');
+        $qb->where('m.id != :id')
+            ->andWhere('m.location = :location')
+            ->andWhere('m.language = :language')
+            ->andWhere('m.title = :title')
+            ->setParameter('id', $menu->getId())
+            ->setParameter('location', $menu->getLocation())
+            ->setParameter('title', $menu->getTitle())
+            ->setParameter('language', $menu->getLanguage());
+
+        return $qb->getQuery()->getResult();
+    }
 }

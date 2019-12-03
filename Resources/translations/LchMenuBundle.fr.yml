@@ -25,3 +25,6 @@ lch:
           enabled:
             label: Actif
             helper: Si le lien est actif ou non.
+  error:
+    menu:
+      unique_location: Il existe déja un menu avec cette emplacement avec le même langage.

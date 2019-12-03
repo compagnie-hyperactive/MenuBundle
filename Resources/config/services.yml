@@ -24,9 +24,14 @@ services:
       - { name: twig.extension }
     lazy: true
 
+  lch.menu.validator:
+    class: Lch\MenuBundle\Service\ValidMenuValidator
+    arguments: [ '@doctrine.orm.entity_manager', '@translator' ]
+    lazy: true
+
   lch.menu.tools:
     class: Lch\MenuBundle\Service\MenuTools
-    arguments: [ '@doctrine.orm.entity_manager' ]
+    arguments: [ '@doctrine.orm.entity_manager']
 #    tags:
 #      - { name: twig.extension }
     lazy: true
