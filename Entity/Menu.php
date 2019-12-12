@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Lch\TranslateBundle\Model\Behavior\Translatable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use Lch\MenuBundle\Service as LchAssert;
+use Lch\MenuBundle\Validator\Constraints as LchAssert;
 
 /**
  * Menu
@@ -36,7 +36,7 @@ class Menu
     private $title;
     /**
      * @var string
-     * @ORM\Column(type="string", length=255, nullable=true, unique=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $location;
 

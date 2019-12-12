@@ -1,3 +1,6 @@
+parameters:
+  lch.menu.validator.class: Lch\MenuBundle\Validator\Constraints\ValidMenuValidator
+
 services:
   lch.menu.form:
     class: Lch\MenuBundle\Form\MenuType
@@ -25,9 +28,10 @@ services:
     lazy: true
 
   lch.menu.validator:
-    class: Lch\MenuBundle\Service\ValidMenuValidator
-    arguments: [ '@doctrine.orm.entity_manager', '@translator' ]
+    class: '%lch.menu.validator.class%'
+    arguments: ['@doctrine.orm.entity_manager', '@translator' ]
     lazy: true
+    tags: { name: validator.constraint_validator}
 
   lch.menu.tools:
     class: Lch\MenuBundle\Service\MenuTools

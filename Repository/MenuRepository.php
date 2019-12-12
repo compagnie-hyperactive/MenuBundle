@@ -14,14 +14,16 @@ class MenuRepository extends \Doctrine\ORM\EntityRepository
 {
     public function findForValidator(Menu $menu){
         $qb = $this->createQueryBuilder('m');
-        $qb->where('m.id != :id')
-            ->andWhere('m.location = :location')
+        $qb->andWhere('m.location = :location')
             ->andWhere('m.language = :language')
-            ->andWhere('m.title = :title')
-            ->setParameter('id', $menu->getId())
             ->setParameter('location', $menu->getLocation())
-            ->setParameter('title', $menu->getTitle())
             ->setParameter('language', $menu->getLanguage());
+
+        if ($menu->getId() !== null) {
+            $qb->andWhere('m.id != :id')->setParameter('id', $menu->getId());
+        } else {
+            $qb->andWhere($qb->expr()->isNotNull("m.id"));
+        }
 
         return $qb->getQuery()->getResult();
     }
