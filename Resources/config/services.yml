@@ -22,7 +22,7 @@ services:
 
   lch.menu.twig.extension:
     class: Lch\MenuBundle\Twig\Extension\MenuExtension
-    arguments: [ '@doctrine.orm.entity_manager', '%lch.menu.locations%' ]
+    arguments: [ '@doctrine.orm.entity_manager', '%lch.menu.locations%', '%jms_i18n_routing.default_locale%' ]
     tags:
       - { name: twig.extension }
     lazy: true

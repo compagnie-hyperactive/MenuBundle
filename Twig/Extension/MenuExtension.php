@@ -20,32 +20,38 @@ class MenuExtension extends \Twig_Extension
     /**
      * @var array
      */
-    private $alreadySetIds;
+    protected $alreadySetIds;
 
     /**
      * @var int
      */
-    private $position;
+    protected $position;
 
     /**
      * @var object
      */
-    private $currentOwner;
+    protected $currentOwner;
 
     /**
      * @var EntityManager
      */
-    private $manager;
+    protected $manager;
+
+    /**
+     * @var string $defaultLanguage
+     */
+    protected $defaultLanguage;
 
     /**
      * @var array
      */
-    private $locations;
+    protected $locations;
 
-    public function __construct(EntityManager $manager, array $locations)
+    public function __construct(EntityManager $manager, array $locations, string $defaultLanguage)
     {
         $this->manager   = $manager;
         $this->locations = $locations;
+        $this->defaultLanguage = $defaultLanguage;
     }
 
     /**
@@ -119,16 +125,18 @@ class MenuExtension extends \Twig_Extension
      * @param string $location
      * @param string|null $locale
      *
-     * @return array
+     * @return array|mixed
      */
     public function getMenuItems(string $location, string $locale = null)
     {
-        $params = ['location' => $location];
-        if($locale !== null) {
-            $params['language'] = $locale;
+        if($locale === null) {
+            $locale = $this->defaultLanguage;
         }
 
-        $menu   = $this->manager->getRepository('LchMenuBundle:Menu')->findOneBy($params);
+        $menu   = $this->manager->getRepository('LchMenuBundle:Menu')->findOneBy([
+            'location' => $location,
+            'language' => $locale
+        ]);
 
         if ($menu instanceof Menu) {
             $menuItems = json_decode($menu->getMenuItems());
