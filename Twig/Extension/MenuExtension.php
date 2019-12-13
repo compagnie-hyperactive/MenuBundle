@@ -42,8 +42,9 @@ class MenuExtension extends \Twig_Extension
      */
     private $locations;
 
-    public function __construct(EntityManager $manager, array $locations) {
-        $this->manager = $manager;
+    public function __construct(EntityManager $manager, array $locations)
+    {
+        $this->manager   = $manager;
         $this->locations = $locations;
     }
 
@@ -53,10 +54,10 @@ class MenuExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('getMenuItemsJson', [$this, 'getMenuItemsJson' ], [
+            new \Twig_SimpleFunction('getMenuItemsJson', [$this, 'getMenuItemsJson'], [
                 'needs_environment' => false
             ]),
-            new \Twig_SimpleFunction('getMenuItems', [$this, 'getMenuItems' ], [
+            new \Twig_SimpleFunction('get_menu_items', [$this, 'getMenuItems'], [
                 'needs_environment' => false
             ])
         ];
@@ -64,36 +65,43 @@ class MenuExtension extends \Twig_Extension
 
     /**
      * Create JSON compatible data for menu display
+     *
      * @param Collection $menuItems
+     *
      * @return string
      */
-    public function getMenuItemsJson(Collection $menuItems, $currentOwner) {
+    public function getMenuItemsJson(Collection $menuItems, $currentOwner)
+    {
 
         $this->alreadySetIds = [];
-        $this->position = 0;
-        $this->currentOwner = $currentOwner;
+        $this->position      = 0;
+        $this->currentOwner  = $currentOwner;
+
         return json_encode($this->recursiveMenuItemHandling($menuItems));
     }
 
     /**
      * Recursive method to handle tree nested menus
+     *
      * @param Collection $menuItems
+     *
      * @return array
      */
-    private function recursiveMenuItemHandling(Collection $menuItems) {
+    private function recursiveMenuItemHandling(Collection $menuItems)
+    {
         $data = [];
-        foreach($menuItems as $menuItem) {
+        foreach ($menuItems as $menuItem) {
             // This is necessary to avoid to loop on children only when already included as previous parent children
-            if(!in_array($menuItem->getId(), $this->alreadySetIds)) {
-                $this->alreadySetIds[] = $menuItem->getId();
-                $itemNode = [];
-                $itemNode['name'] = $menuItem->getTitle();
-                $itemNode['url'] = $menuItem->getTarget();
-                $itemNode['id'] = $this->position;
+            if (! in_array($menuItem->getId(), $this->alreadySetIds)) {
+                $this->alreadySetIds[]  = $menuItem->getId();
+                $itemNode               = [];
+                $itemNode['name']       = $menuItem->getTitle();
+                $itemNode['url']        = $menuItem->getTarget();
+                $itemNode['id']         = $this->position;
                 $itemNode['persist_id'] = $menuItem->getId();
-                if(null === $menuItem->getParent()) {
+                if (null === $menuItem->getParent()) {
                     $itemNode['owner_type'] = get_class($this->currentOwner);
-                    $itemNode['owner_id'] = $this->currentOwner->getId();
+                    $itemNode['owner_id']   = $this->currentOwner->getId();
                 }
                 $this->position++;
                 if ($menuItem->getChildren()->count() > 0) {
@@ -109,17 +117,26 @@ class MenuExtension extends \Twig_Extension
 
     /**
      * @param string $location
+     * @param string|null $locale
+     *
      * @return array
      */
-	public function getMenuItems(string $location) {
-		$menu = $this->manager->getRepository('LchMenuBundle:Menu')->findOneBy(['location' => $location]);
+    public function getMenuItems(string $location, string $locale = null)
+    {
+        $params = ['location' => $location];
+        if($locale !== null) {
+            $params['language'] = $locale;
+        }
 
-		if($menu instanceof Menu) {
-			$menuItems = json_decode($menu->getMenuItems());
-			if(is_array($menuItems)) {
-				return $menuItems;
-			}
-		}
-		return [];
-	}
+        $menu   = $this->manager->getRepository('LchMenuBundle:Menu')->findOneBy($params);
+
+        if ($menu instanceof Menu) {
+            $menuItems = json_decode($menu->getMenuItems());
+            if (is_array($menuItems)) {
+                return $menuItems;
+            }
+        }
+
+        return [];
+    }
 }

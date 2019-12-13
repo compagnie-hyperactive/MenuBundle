@@ -2,8 +2,10 @@
 
 namespace Lch\MenuBundle\Form;
 
+use Doctrine\ORM\QueryBuilder;
 use Lch\MenuBundle\DependencyInjection\Configuration;
 use Lch\MenuBundle\Entity\Menu;
+use Lch\MenuBundle\Repository\MenuRepository;
 use Lch\TranslateBundle\EventListener\AddTranslationsFieldsEventSubscriber;
 use Lch\TranslateBundle\Form\Type\LanguageType;
 use Lch\TranslateBundle\Form\Type\TranslatedParentType;
@@ -23,13 +25,18 @@ class MenuType extends AbstractType
     /** @var TranslationsHelper $translationsHelper */
     protected $translationsHelper;
 
+    /** @var string $defaultLocale */
+    protected $defaultLocale;
+
     /**
      * MenuType constructor.
+     *
      * @param TranslationsHelper $translationsHelper
      */
-    public function __construct(TranslationsHelper $translationsHelper)
+    public function __construct(TranslationsHelper $translationsHelper, string $defaultLocale)
     {
         $this->translationsHelper = $translationsHelper;
+        $this->defaultLocale = $defaultLocale;
     }
 
 
@@ -40,35 +47,48 @@ class MenuType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'label' => static::ROOT_TRANSLATION_PATH . ".title.label",
-                'attr' => [
+                'label'              => static::ROOT_TRANSLATION_PATH . ".title.label",
+                'attr'               => [
                     'helper' => static::ROOT_TRANSLATION_PATH . ".title.helper",
-                    'width' => 50
+                    'width'  => 50
                 ],
                 'translation_domain' => 'LchMenuBundle'
             ])
             ->add('location', MenuLocationType::class, [
-                'label' => static::ROOT_TRANSLATION_PATH . ".location.label",
+                'label'              => static::ROOT_TRANSLATION_PATH . ".location.label",
                 'translation_domain' => 'LchMenuBundle'
             ])
             ->add('menuItems', MenuTreeType::class, [
-                'label' => static::ROOT_TRANSLATION_PATH . '.menu_items.label',
+                'label'              => static::ROOT_TRANSLATION_PATH . '.menu_items.label',
 //                'allow_add' => true,
 //                'allow_delete' => true,
-                'attr' => array(
+                'attr'               => array(
                     'helper' => static::ROOT_TRANSLATION_PATH . '.menu_items.helper'
                 ),
                 'translation_domain' => 'LchMenuBundle'
-            ])
-        ;
+            ]);
 
         if ($this->translationsHelper->isTranslationSystemEnabled()) {
             $builder
                 ->add('language', LanguageType::class)
                 ->add('translatedParent', TranslatedParentType::class, [
-                    'class' => Menu::class
-                ])
-            ;
+                    'class'         => Menu::class,
+                    'choice_label'  => function (Menu $menu) {
+                        return "{$menu->getTitle()} ({$menu->getLocation()})";
+                    },
+                    'query_builder' => function (MenuRepository $r) {
+                        /** @var QueryBuilder $qb */
+                        $qb = $r->createQueryBuilder('m');
+
+                        return $qb
+                            ->where('m.language = :language')
+                            ->setParameter('language', $this->defaultLocale)
+                            ;
+                    },
+                    'attr'          => [
+                        'helper' => 'admin.form.translated_parent_helper_label'
+                    ]
+                ]);
         }
     }
 

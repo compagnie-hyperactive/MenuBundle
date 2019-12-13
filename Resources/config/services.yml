@@ -4,7 +4,7 @@ parameters:
 services:
   lch.menu.form:
     class: Lch\MenuBundle\Form\MenuType
-    arguments: [ '@lch.translate.translations_helper', '%lch.menu.locations%' ]
+    arguments: [ '@lch.translate.translations_helper', '%jms_i18n_routing.default_locale%' ]
     tags:
       - { name: form.type }
 
