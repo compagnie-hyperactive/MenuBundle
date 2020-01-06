@@ -3,16 +3,12 @@
 namespace Lch\MenuBundle\Form;
 
 use Doctrine\ORM\QueryBuilder;
-use Lch\MenuBundle\DependencyInjection\Configuration;
 use Lch\MenuBundle\Entity\Menu;
 use Lch\MenuBundle\Repository\MenuRepository;
-use Lch\TranslateBundle\EventListener\AddTranslationsFieldsEventSubscriber;
 use Lch\TranslateBundle\Form\Type\LanguageType;
 use Lch\TranslateBundle\Form\Type\TranslatedParentType;
 use Lch\TranslateBundle\Utils\TranslationsHelper;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

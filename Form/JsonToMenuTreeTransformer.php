@@ -11,10 +11,9 @@ namespace Lch\MenuBundle\Form;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Persistence\ObjectManager;
+Use Doctrine\Persistence\ObjectManager;
 use Lch\MenuBundle\Entity\MenuItem;
 use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class JsonToMenuTreeTransformer implements DataTransformerInterface
 {

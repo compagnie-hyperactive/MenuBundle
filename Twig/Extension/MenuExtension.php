@@ -12,9 +12,10 @@ namespace Lch\MenuBundle\Twig\Extension;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
 use Lch\MenuBundle\Entity\Menu;
-use Lch\MenuBundle\Entity\MenuItem;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
-class MenuExtension extends \Twig_Extension
+class MenuExtension extends AbstractExtension
 {
 
     /**
@@ -60,10 +61,10 @@ class MenuExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('getMenuItemsJson', [$this, 'getMenuItemsJson'], [
+            new TwigFunction('getMenuItemsJson', [$this, 'getMenuItemsJson'], [
                 'needs_environment' => false
             ]),
-            new \Twig_SimpleFunction('get_menu_items', [$this, 'getMenuItems'], [
+            new TwigFunction('get_menu_items', [$this, 'getMenuItems'], [
                 'needs_environment' => false
             ])
         ];
