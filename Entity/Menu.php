@@ -2,12 +2,9 @@
 
 namespace Lch\MenuBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+
 use Doctrine\ORM\Mapping as ORM;
 use Lch\TranslateBundle\Model\Behavior\Translatable;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
 use Lch\MenuBundle\Validator\Constraints as LchAssert;
 
 /**
@@ -46,10 +43,6 @@ class Menu
      */
     private $menuItems;
 
-    public function __construct() {
-//        $this->menuItems = new ArrayCollection();
-    }
-
     /**
      * @return string
      */
@@ -67,24 +60,6 @@ class Menu
         $this->menuItems = $menuItems;
         return $this;
     }
-
-//    /**
-//     * @return ArrayCollection
-//     */
-//    public function getMenuItems(): Collection
-//    {
-//        return $this->menuItems;
-//    }
-//
-//    /**
-//     * @param ArrayCollection $menuItems
-//     * @return Menu
-//     */
-//    public function setMenuItems(ArrayCollection $menuItems): Menu
-//    {
-//        $this->menuItems = $menuItems;
-//        return $this;
-//    }
 
     /**
      * @return string
