@@ -60,7 +60,8 @@ class MenuType extends AbstractType
                 'attr'               => array(
                     'helper' => static::ROOT_TRANSLATION_PATH . '.menu_items.helper'
                 ),
-                'translation_domain' => 'LchMenuBundle'
+                'translation_domain' => 'LchMenuBundle',
+                'block_prefix' => static::NAME . '_tree'
             ]);
 
         if ($this->translationsHelper->isTranslationSystemEnabled()) {
