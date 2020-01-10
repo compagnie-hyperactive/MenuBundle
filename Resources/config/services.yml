@@ -8,12 +8,6 @@ services:
     tags:
       - { name: form.type }
 
-  lch.menu.tree.form:
-      class: Lch\MenuBundle\Form\MenuTreeType
-      arguments: [ '@doctrine.orm.entity_manager' ]
-      tags:
-        - { name: form.type }
-
   lch.menu.location:
       class: Lch\MenuBundle\Form\MenuLocationType
       arguments: [ '%lch.menu.locations%' ]
@@ -36,6 +30,4 @@ services:
   lch.menu.tools:
     class: Lch\MenuBundle\Service\MenuTools
     arguments: [ '@doctrine.orm.entity_manager']
-#    tags:
-#      - { name: twig.extension }
     lazy: true
