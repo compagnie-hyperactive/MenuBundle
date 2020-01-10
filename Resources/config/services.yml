@@ -26,8 +26,3 @@ services:
     arguments: ['@doctrine.orm.entity_manager', '@translator' ]
     lazy: true
     tags: { name: validator.constraint_validator}
-
-  lch.menu.tools:
-    class: Lch\MenuBundle\Service\MenuTools
-    arguments: [ '@doctrine.orm.entity_manager']
-    lazy: true
