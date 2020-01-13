@@ -1,28 +1,7 @@
 {% trans_default_domain "LchMenuBundle" %}
 {% block lch_menu_tree_widget %}
-    {#<script>#}
-        {#var data = [#}
-            {#{#}
-                {#title: 'Lien 1',#}
-                {#url: 'http://google0.fr',#}
-                {#children: [#}
-                    {#{ title: 'Lien enfant 1', url: 'http://google7.fr' },#}
-                    {#{ title: 'Lien enfant 2', url: 'http://google3.fr' }#}
-                {#]#}
-            {#},#}
-            {#{#}
-                {#title: 'Lien 2',#}
-                {#url: 'http://google4.fr',#}
-                {#children: [#}
-                    {#{ title: 'Lien enfant 3', url: 'http://google6.fr' }#}
-                {#]#}
-            {#}#}
-        {#];#}
-    {#</script>#}
-
     {% set rand = random() %}
     <script>
-        {#var data_{{ rand }} = {{ getMenuItemsJson(form.vars.data, form.parent.vars.value)|raw }};#}
         var data_{{ rand }} = {{ form.vars.value ? form.vars.value|raw : '""' }};
     </script>
     <div class="col-xs-12 col-md-2">
@@ -32,21 +11,11 @@
         </p>
     </div>
     <div class="menu-tree-container col-xs-12 col-md-10"
-         data-rand="{{ rand }}"
-         {#data-name="{{ form.vars.full_name }}"#}
-         {#data-owner-type="{{ getClass(form.parent.vars.value) }}"#}
-         {#data-owner-id="{{ form.parent.vars.value.id }}"#}
-    >
-        {#{{ dump(form) }}#}
-
-        {#{% for rootMenuItem in form.vars.data %}#}
-            <input
-                    type="hidden"
-                    data-rand="{{ rand }}"
-                    {#name="{{ form.vars.full_name }}[{{ loop.index0 }}]"#}
-                    name="{{ form.vars.full_name }}"
-                    value=""/>
-        {#{% endfor %}#}
+         data-rand="{{ rand }}">
+            <input type="hidden"
+                   data-rand="{{ rand }}"
+                   name="{{ form.vars.full_name }}"
+                   value=""/>
 
         <div data-rand="{{ rand }}" class="menu-tree"></div>
         <button data-rand="{{ rand }}" class="btn btn-default add-node"><i class="glyphicon glyphicon-plus"></i>{{ "lch.menu.form.tree.add"|trans }}</button>

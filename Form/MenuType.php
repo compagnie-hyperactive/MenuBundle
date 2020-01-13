@@ -3,16 +3,13 @@
 namespace Lch\MenuBundle\Form;
 
 use Doctrine\ORM\QueryBuilder;
-use Lch\MenuBundle\DependencyInjection\Configuration;
 use Lch\MenuBundle\Entity\Menu;
 use Lch\MenuBundle\Repository\MenuRepository;
-use Lch\TranslateBundle\EventListener\AddTranslationsFieldsEventSubscriber;
 use Lch\TranslateBundle\Form\Type\LanguageType;
 use Lch\TranslateBundle\Form\Type\TranslatedParentType;
 use Lch\TranslateBundle\Utils\TranslationsHelper;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -58,14 +55,13 @@ class MenuType extends AbstractType
                 'label'              => static::ROOT_TRANSLATION_PATH . ".location.label",
                 'translation_domain' => 'LchMenuBundle'
             ])
-            ->add('menuItems', MenuTreeType::class, [
+            ->add('menuItems', HiddenType::class, [
                 'label'              => static::ROOT_TRANSLATION_PATH . '.menu_items.label',
-//                'allow_add' => true,
-//                'allow_delete' => true,
                 'attr'               => array(
                     'helper' => static::ROOT_TRANSLATION_PATH . '.menu_items.helper'
                 ),
-                'translation_domain' => 'LchMenuBundle'
+                'translation_domain' => 'LchMenuBundle',
+                'block_prefix' => static::NAME . '_tree'
             ]);
 
         if ($this->translationsHelper->isTranslationSystemEnabled()) {

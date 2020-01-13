@@ -8,7 +8,6 @@
 
 namespace Lch\MenuBundle\Form;
 
-
 use Lch\MenuBundle\DependencyInjection\Configuration;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
