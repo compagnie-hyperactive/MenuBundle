@@ -12,6 +12,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MenuType extends AbstractType
@@ -85,6 +87,8 @@ class MenuType extends AbstractType
                         'helper' => 'admin.form.translated_parent_helper_label'
                     ]
                 ]);
+        } else {
+            $builder->addEventListener(FormEvents::POST_SUBMIT, [$this, 'setDefaultLanguage']);
         }
     }
 
@@ -104,5 +108,12 @@ class MenuType extends AbstractType
     public function getName()
     {
         return static::NAME;
+    }
+
+    public function setDefaultLanguage(FormEvent $event)
+    {
+        /** @var Menu $data */
+        $data = $event->getData();
+        $data->setLanguage($this->defaultLocale);
     }
 }
