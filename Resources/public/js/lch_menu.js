@@ -14,7 +14,6 @@ $(function() {
             autoOpen: 1,
             autoEscape: false,
             onCreateLi: function(node, $li) {
-                var currentPosition = $tree.find('li').length + 1;
 
                 var urlString = (node.url && node.url != '') ? ' - (<i>' + node.url + '</i>)' : '';
 
@@ -65,7 +64,7 @@ $(function() {
                 {
                     name: 'Nouvel item',
                     url: '',
-                    id: $tree.find('li').length + 1,
+                    id: Math.floor(Math.random() * 100000) + 1,
                     tags: ""
                     // owner_type: $container.attr('data-owner-type'),
                     // owner_id: $container.attr('data-owner-id')
